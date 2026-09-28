@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Sorpresa Especial de Cumpleaños ✨</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        romantic: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                            900: '#881337',
+                            dark: '#1a050b',
+                            card: '#2a0913',
+                            gold: '#dfb76c',
+                            goldLight: '#f4e0b9'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['"Cinzel Decorative"', 'serif'],
+                        playfair: ['"Playfair Display"', 'serif'],
+                        cursive: ['"Dancing Script"', 'cursive'],
+                        sans: ['"Montserrat"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global & Custom Scrollbar */
+        * {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a050b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #881337;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #be123c;
+        }
+
+        /* Ambient Glow & Canvas background */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(42, 9, 19, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(223, 183, 108, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .glass-card-gold {
+            background: linear-gradient(135deg, rgba(42,9,19,0.85) 0%, rgba(65,12,28,0.75) 100%);
+            border: 1px solid rgba(223, 183, 108, 0.4);
+            box-shadow: 0 15px 35px rgba(190, 18, 60, 0.2);
+        }
+
+        /* Golden Gradient Text */
+        .gold-text {
+            background: linear-gradient(135deg, #FFF1C5 0%, #DFB76C 50%, #C59635 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .rose-gold-text {
+            background: linear-gradient(135deg, #ffffff 0%, #fecdd3 40%, #fb7185 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Cinematic Intro curtain */
+        #cinematicIntro {
+            transition: opacity 1.2s ease-in-out, visibility 1.2s;
+        }
+
+        /* Shimmer text effect */
+        .shimmer {
+            background: linear-gradient(90deg, #dfb76c 0%, #ffffff 50%, #dfb76c 100%);
+            background-size: 200% auto;
+            color: #000;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* ENVELOPE STYLES */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+        .envelope {
+            width: 320px;
+            height: 220px;
+            position: relative;
+            background: #881337;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(223, 183, 108, 0.2);
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+        @media (min-width: 640px) {
+            .envelope {
+                width: 420px;
+                height: 280px;
+            }
+        }
+        .envelope:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 130px solid #be123c;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
+            z-index: 4;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+        @media (min-width: 640px) {
+            .envelope .flap {
+                border-left-width: 210px;
+                border-right-width: 210px;
+                border-top-width: 160px;
+            }
+        }
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .envelope .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #5a0c23;
+            border-right: 160px solid #5a0c23;
+            border-bottom: 110px solid #710e2b;
+            border-radius: 0 0 8px 8px;
+            z-index: 3;
+        }
+        @media (min-width: 640px) {
+            .envelope .pocket {
+                border-left-width: 210px;
+                border-right-width: 210px;
+                border-bottom-width: 140px;
+            }
+        }
+        .envelope .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #dfb76c 0%, #b8860b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+            z-index: 5;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            color: #3a0815;
+            font-size: 24px;
+            border: 2px solid #fff1c5;
+        }
+        .envelope.open .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        .letter-preview {
+            position: absolute;
+            bottom: 15px;
+            left: 5%;
+            width: 90%;
+            height: 80%;
+            background: #fffdf9;
+            border-radius: 6px;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-sizing: border-box;
+            color: #2a0913;
+        }
+        .envelope.open .letter-preview {
+            transform: translateY(-120px);
+            z-index: 4;
+        }
+
+        /* Polaroid Photo Cards */
+        .polaroid {
+            background: #ffffff;
+            padding: 12px 12px 24px 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 10px rgba(223, 183, 108, 0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: rotate(var(--rotation, 0deg));
+            position: relative;
+        }
+        .polaroid:hover {
+            transform: scale(1.06) rotate(0deg) !important;
+            z-index: 30;
+            box-shadow: 0 25px 45px rgba(244, 63, 94, 0.3);
+        }
+        .polaroid::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Pulse glow animation */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(223, 183, 108, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(244, 63, 94, 0.6); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-romantic-dark text-slate-100 font-sans min-h-screen relative overflow-x-hidden selection:bg-romantic-500 selection:text-white">
+
+    <!-- Ambient Floating Hearts Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Ambient Audio Player (Optional background soundtrack with user interaction trigger) -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-688.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="musicToggle" class="w-12 h-12 rounded-full glass-card-gold text-romantic-gold flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 border border-romantic-gold/50" title="Música de fondo">
+            <i id="musicIcon" class="fas fa-music text-lg"></i>
+        </button>
+    </div>
+
+    <!-- ==========================================
+         STAGE 1: PRESENTACIÓN CINEMATOGRÁFICA
+    =========================================== -->
+    <div id="cinematicIntro" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-6 text-center">
+        <!-- Background Glow -->
+        <div class="absolute inset-0 bg-radial gradient from-romantic-900/40 via-black to-black opacity-80 pointer-events-none"></div>
+
+        <!-- Initial Start Button -->
+        <div id="introStartBox" class="relative z-10 transition-all duration-700">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full glass-card-gold flex items-center justify-center pulse-glow">
+                <i class="fas fa-heart text-4xl text-romantic-400 animate-pulse"></i>
+            </div>
+            <h2 class="font-playfair text-2xl md:text-3xl text-romantic-200 mb-3 tracking-wide">Una Sorpresa Especial Creada Para Ti</h2>
+            <p class="text-slate-400 text-sm md:text-base max-w-md mx-auto mb-8 font-light">Haz clic abajo para iniciar la experiencia cinematográfica de cumpleaños</p>
+            <button id="btnStartExperience" class="px-8 py-4 rounded-full bg-gradient-to-r from-romantic-600 via-romantic-500 to-rose-400 text-white font-semibold tracking-wider text-lg shadow-xl hover:shadow-romantic-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-3 mx-auto">
+                <span>Abrir Mi Sorpresa</span>
+                <i class="fas fa-sparkles text-romantic-gold"></i>
+            </button>
+        </div>
+
+        <!-- Animated Cinematic Name Reveal (Hidden initially) -->
+        <div id="cinematicContent" class="relative z-10 hidden max-w-3xl mx-auto px-4">
+            <p id="cineSub1" class="font-playfair italic text-romantic-gold text-xl md:text-2xl mb-4 opacity-0 transition-all duration-1000 transform translate-y-4">
+                "Hay fechas que quedan marcadas en el alma..."
+            </p>
+            <h1 id="cineTitle" class="font-cinzel text-4xl sm:text-6xl md:text-7xl font-bold gold-text my-6 opacity-0 transition-all duration-1000 transform scale-95 leading-tight">
+                ¡Feliz Cumpleaños, Mi Amor!
+            </h1>
+            <p id="cineSub2" class="font-cursive text-2xl sm:text-4xl text-romantic-200 mt-4 opacity-0 transition-all duration-1000 transform translate-y-4">
+                Eres la persona más maravillosa de mi vida ✨
+            </p>
+            <div id="cineContinueBtn" class="mt-12 opacity-0 transition-all duration-1000">
+                <button id="btnEnterMain" class="px-8 py-3 rounded-full glass-card-gold text-romantic-gold border border-romantic-gold/60 font-medium tracking-wide hover:bg-romantic-gold hover:text-romantic-dark transition-all duration-300 flex items-center gap-2 mx-auto">
+                    <span>Explorar Tu Tarjeta Interactivas</span>
+                    <i class="fas fa-chevron-down text-sm animate-bounce"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         MAIN INTERACTIVE EXPERIENCE CONTENT
+    =========================================== -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 py-12 md:py-20 space-y-24">
+
+        <!-- HEADER BANNER -->
+        <header class="text-center space-y-4 pt-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-romantic-gold/40 text-romantic-gold text-xs sm:text-sm font-medium tracking-widest uppercase">
+                <i class="fas fa-crown text-romantic-gold"></i>
+                <span>Edición Especial de Cumpleaños</span>
+            </div>
+            <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl font-extrabold rose-gold-text tracking-tight">
+                Tu Día Especial ✨
+            </h1>
+            <p class="font-playfair italic text-romantic-200 text-lg sm:text-xl max-w-2xl mx-auto">
+                Celebrando tu existencia, tu sonrisa y cada momento inolvidable que compartimos.
+            </p>
+        </header>
+
+        <!-- SECTION 1: CUENTA REGRESIVA DE CUMPLEAÑOS -->
+        <section class="glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+            <!-- Decorative Light Blobs -->
+            <div class="absolute -top-24 -left-24 w-60 h-60 bg-romantic-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-60 h-60 bg-romantic-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl mx-auto space-y-8">
+                <div>
+                    <span class="text-romantic-gold font-semibold text-xs sm:text-sm tracking-widest uppercase block mb-2">
+                        <i class="fas fa-clock mr-1"></i> Cuenta Regresiva de Cumpleaños
+                    </span>
+                    <h2 class="font-playfair text-2xl sm:text-4xl text-white font-bold">
+                        29 de Septiembre <span class="text-romantic-gold">🎉</span>
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm mt-1 font-light">Hora Colombia (UTC-5)</p>
+                </div>
+
+                <!-- Countdown Timer Display -->
+                <div class="grid grid-cols-4 gap-3 sm:gap-6 max-w-xl mx-auto">
+                    <!-- Days -->
+                    <div class="glass-card-gold rounded-2xl p-3 sm:p-5 flex flex-col items-center border border-romantic-gold/30">
+                        <span id="timerDays" class="font-cinzel text-2xl sm:text-5xl font-black text-white">00</span>
+                        <span class="text-[10px] sm:text-xs text-romantic-gold uppercase tracking-wider font-semibold mt-1">Días</span>
+                    </div>
+                    <!-- Hours -->
+                    <div class="glass-card-gold rounded-2xl p-3 sm:p-5 flex flex-col items-center border border-romantic-gold/30">
+                        <span id="timerHours" class="font-cinzel text-2xl sm:text-5xl font-black text-white">00</span>
+                        <span class="text-[10px] sm:text-xs text-romantic-gold uppercase tracking-wider font-semibold mt-1">Horas</span>
+                    </div>
+                    <!-- Minutes -->
+                    <div class="glass-card-gold rounded-2xl p-3 sm:p-5 flex flex-col items-center border border-romantic-gold/30">
+                        <span id="timerMinutes" class="font-cinzel text-2xl sm:text-5xl font-black text-white">00</span>
+                        <span class="text-[10px] sm:text-xs text-romantic-gold uppercase tracking-wider font-semibold mt-1">Minutos</span>
+                    </div>
+                    <!-- Seconds -->
+                    <div class="glass-card-gold rounded-2xl p-3 sm:p-5 flex flex-col items-center border border-romantic-gold/30">
+                        <span id="timerSeconds" class="font-cinzel text-2xl sm:text-5xl font-black text-white text-romantic-400">00</span>
+                        <span class="text-[10px] sm:text-xs text-romantic-gold uppercase tracking-wider font-semibold mt-1">Segundos</span>
+                    </div>
+                </div>
+
+                <div id="countdownMsg" class="p-4 rounded-xl glass-card border border-romantic-500/30 text-romantic-200 text-sm sm:text-base font-light">
+                    ✨ ¡El gran día se acerca! Preparando los momentos más lindos para celebrarte.
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SECTION 2: CARTA DIGITAL PRIVADA -->
+        <section class="space-y-8 text-center">
+            <div class="space-y-2">
+                <span class="text-romantic-gold font-semibold text-xs sm:text-sm tracking-widest uppercase">
+                    <i class="fas fa-envelope-open-text mr-1"></i> Mensaje Reservado Solo Para Ti
+                </span>
+                <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-white">
+                    Tu Carta Digital Privada 💌
+                </h2>
+                <p class="text-slate-400 text-sm max-w-lg mx-auto">
+                    Toca el sobre o el sello para abrir la carta creada con todo mi amor.
+                </p>
+            </div>
+
+            <!-- Envelope Container -->
+            <div class="flex justify-center items-center py-6">
+                <div class="envelope-wrapper">
+                    <div id="interactiveEnvelope" class="envelope">
+                        <!-- Top Flap -->
+                        <div class="flap"></div>
+                        <!-- Wax Seal -->
+                        <div class="wax-seal">
+                            <i class="fas fa-heart text-romantic-900"></i>
+                        </div>
+                        <!-- Envelope Pocket Base -->
+                        <div class="pocket"></div>
+                        <!-- Inner Letter Preview -->
+                        <div class="letter-preview flex flex-col items-center justify-center text-center">
+                            <i class="fas fa-heart text-romantic-600 text-2xl mb-2"></i>
+                            <span class="font-cursive text-xl text-romantic-900 font-bold">Para la mujer más especial</span>
+                            <span class="text-xs text-slate-500 mt-1">Haz clic para leer el contenido completo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Read Letter Button Trigger -->
+            <div>
+                <button id="btnOpenLetterModal" class="px-6 py-3 rounded-full glass-card-gold text-romantic-gold border border-romantic-gold/50 font-medium hover:bg-romantic-gold hover:text-romantic-dark transition-all duration-300 inline-flex items-center gap-2 shadow-lg">
+                    <i class="fas fa-envelope-open"></i>
+                    <span>Abrir Carta Digital</span>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- SECTION 3: NUESTRO DÍA INOLVIDABLE -->
+        <section class="glass-card rounded-3xl p-6 sm:p-12 relative overflow-hidden border border-romantic-gold/30">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Highlight Badge & Info -->
+                <div class="md:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-romantic-600/30 text-romantic-300 text-xs font-semibold tracking-wider">
+                        <i class="fas fa-calendar-star"></i>
+                        <span>RECUERDO ESPECIAL E INOLVIDABLE</span>
+                    </div>
+
+                    <h2 class="font-playfair text-3xl sm:text-4xl text-white font-bold leading-tight">
+                        Aquella Noche Mágica del <br>
+                        <span class="gold-text font-cinzel">21 de Julio de 2026</span>
+                    </h2>
+
+                    <div class="p-5 rounded-2xl glass-card border-l-4 border-romantic-gold space-y-3">
+                        <p class="font-cursive text-2xl sm:text-3xl text-romantic-gold">
+                            "Duramos desde las 6:00 AM hablando sin parar..."
+                        </p>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+                            Entre risas, confidencias y palabras sinceras, las horas pasaron volando sin darnos cuenta hasta que nos dio la primera luz del día. Un momento guardado para siempre en el corazón como testimonio del cariño y la complicidad tan bonita que nos une.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 text-xs sm:text-sm text-romantic-200">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-sun text-romantic-gold"></i> Hasta el amanecer
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-comments text-romantic-gold"></i> Conversación infinita
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-infinity text-romantic-gold"></i> Conexión única
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Feature Visual Card -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl group border border-romantic-gold/40">
+                        <img src="assets/foto2.png" alt="Recuerdo Especial" class="w-full h-80 object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-romantic-dark via-transparent to-transparent opacity-90"></div>
+                        <div class="absolute bottom-4 left-4 right-4 p-4 text-center">
+                            <p class="font-cursive text-xl text-romantic-gold">Un instante grabado en el alma</p>
+                            <span class="text-xs text-slate-300">Mi foto favorita</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SECTION 4: GALERÍA DE RECUERDOS (POLAROID ALBUM) -->
+        <section class="space-y-10">
+            <div class="text-center space-y-3">
+                <span class="text-romantic-gold font-semibold text-xs sm:text-sm tracking-widest uppercase">
+                    <i class="fas fa-images mr-1"></i> Momentos Mágicos
+                </span>
+                <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-white">
+                    Galería de la Cumpleañera 📸
+                </h2>
+                <p class="text-slate-400 text-sm max-w-md mx-auto">
+                    Cada imagen refleja la belleza, autenticidad y luz que transmites a quienes te rodean.
+                </p>
+            </div>
+
+            <!-- Polaroid Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pt-4">
+
+                <!-- Photo 1 -->
+                <div class="polaroid cursor-pointer group" style="--rotation: -3deg;" onclick="openPhotoModal('assets/foto1.jpg', 'Tu sonrisa radiante que ilumina todo a tu alrededor.')">
+                    <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
+                        <img src="assets/foto1.jpg" alt="Ella 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
+                        Una sonrisa única ✨
+                    </p>
+                </div>
+
+                <!-- Photo 2 -->
+                <div class="polaroid cursor-pointer group" style="--rotation: 2deg;" onclick="openPhotoModal('assets/foto2.png', 'Libre, auténtica y hermosa frente al mar.')">
+                    <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
+                        <img src="assets/foto2.png" alt="Ella 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
+                        Atardeceres inolvidables 🌅
+                    </p>
+                </div>
+
+                <!-- Photo 3 -->
+                <div class="polaroid cursor-pointer group" style="--rotation: -2deg;" onclick="openPhotoModal('assets/foto3.png', 'Esa mirada tan linda que transmite tanta calidez.')">
+                    <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
+                        <img src="assets/foto3.png" alt="Ella 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
+                        La mirada más linda 💖
+                    </p>
+                </div>
+
+                <!-- Photo 4 -->
+                <div class="polaroid cursor-pointer group" style="--rotation: 4deg;" onclick="openPhotoModal('assets/foto4.png', 'Tus detalles, tu elegancia y tu forma de ser única.')">
+                    <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
+                        <img src="assets/foto4.png" alt="Ella 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
+                        Dulzura y encanto 🌸
+                    </p>
+                </div>
+
+                <!-- Photo 5 -->
+                <div class="polaroid cursor-pointer group sm:col-span-2 lg:col-span-1" style="--rotation: -1deg;" onclick="openPhotoModal('assets/foto5.jpg', 'Radiante siempre, celebrando la vida con alegría.')">
+                    <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
+                        <img src="assets/foto5.jpg" alt="Ella 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
+                        Celebrando tu existencia 🎉
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- SECTION 5: BOTONES INTERACTIVOS DE DESEOS & RAZONES -->
+        <section class="glass-card rounded-3xl p-8 sm:p-12 text-center space-y-8">
+            <div class="space-y-2">
+                <span class="text-romantic-gold font-semibold text-xs sm:text-sm tracking-widest uppercase">
+                    <i class="fas fa-sparkles mr-1"></i> Rincón de Amor & Alegría
+                </span>
+                <h2 class="font-playfair text-3xl sm:text-4xl font-bold text-white">
+                    Generador de Deseos Interactivos 🎈
+                </h2>
+                <p class="text-slate-300 text-sm max-w-md mx-auto">
+                    Presiona el botón para descubrir un deseo especial y lanzar una lluvia de fuegos artificiales de amor.
+                </p>
+            </div>
+
+            <div class="max-w-xl mx-auto space-y-6">
+                <!-- Display Box -->
+                <div id="wishDisplay" class="p-6 rounded-2xl glass-card-gold border border-romantic-gold/50 min-h-[100px] flex items-center justify-center">
+                    <p id="wishText" class="font-playfair italic text-lg sm:text-xl text-romantic-gold text-center">
+                        "Haz clic en el botón de abajo para revelar una razón por la que eres extraordinaria..."
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <button id="btnGenerateWish" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-romantic-600 via-romantic-500 to-rose-400 text-white font-semibold shadow-lg hover:shadow-romantic-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-wand-magic-sparkles text-romantic-gold"></i>
+                        <span>Revelar un Deseo Especial</span>
+                    </button>
+                    <button id="btnConfetti" class="px-6 py-3.5 rounded-full glass-card border border-romantic-gold/40 text-romantic-gold font-medium hover:bg-romantic-gold hover:text-romantic-dark transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-gifts"></i>
+                        <span>¡Lluvia de Celebración!</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-8 border-t border-romantic-gold/20 text-slate-400 text-xs sm:text-sm space-y-2">
+            <p class="font-cursive text-2xl text-romantic-gold">Hecho con todo el amor del mundo ❤️</p>
+            <p> De WILLIAM ARCHILA, Un recuerdo eterno</p>
+        </footer>
+
+    </main>
+
+
+    <!-- ==========================================
+         MODALS & OVERLAYS
+    =========================================== -->
+
+    <!-- MODAL 1: CARTA DIGITAL COMPLETA -->
+    <div id="letterModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-2xl bg-[#fffdf9] text-romantic-dark rounded-2xl shadow-2xl p-6 sm:p-10 border-4 border-romantic-gold max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
+            <!-- Close Button -->
+            <button id="btnCloseLetterModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-romantic-100 text-romantic-900 flex items-center justify-center hover:bg-romantic-600 hover:text-white transition-colors">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <!-- Letter Content -->
+            <div class="space-y-6">
+                <!-- Letter Header -->
+                <div class="text-center border-b border-romantic-200 pb-4">
+                    <i class="fas fa-heart text-romantic-600 text-3xl mb-2"></i>
+                    <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-romantic-900">Carta Privada de Cumpleaños</h3>
+                    <p class="font-cursive text-lg text-romantic-700">Para la reina de este día inolvidable</p>
+                </div>
+
+                <!-- Letter Body -->
+                <div class="space-y-4 font-sans text-slate-800 leading-relaxed text-sm sm:text-base">
+                    <p class="font-semibold text-romantic-900">Mi amor,</p>
+                    <p>
+                        Hoy es un día inmensamente especial. Quería dedicarte estas palabras hechas desde lo más profundo de mi corazón para recordarte lo infinitamente valiosa que eres y la luz inmensa que traes a mi vida.
+                    </p>
+                    <p>
+                        Deseo de todo corazón que este nuevo año de vida venga cargado de salud, felicidad, metas cumplidas y momentos mágicos. Te mereces todo lo lindo del universo y mucho más.
+                    </p>
+                    
+                    <div class="p-4 rounded-xl bg-romantic-50 border-l-4 border-romantic-600 my-4 space-y-2">
+                        <p class="font-semibold text-romantic-900 flex items-center gap-2">
+                            <i class="fas fa-star text-romantic-600"></i> Recordando nuestro 21/07/2026:
+                        </p>
+                        <p class="text-xs sm:text-sm text-romantic-900 italic">
+                            "Un instante grabado en el alma 21/07/2026 Jamás olvidaré aquella noche, increíble donde estuvimos hablando hasta las 6:00 AM nos la pasamos super bien, sin sentir el paso del tiempo hasta que la luz del amanecer nos sorprendió. Hablar contigo hace que todo el mundo se detenga."
+                        </p>
+                    </div>
+
+                    <p>
+                        Que este 29 de Septiembre sea el inicio de un año extraordinario. Prometo seguir estando a tu lado, apoyándote, celebrando tus triunfos y disfrutando de cada pequeña risa.
+                    </p>
+                    <p class="font-cursive text-2xl text-romantic-800 font-bold text-right pt-2">
+                        ¡Feliz Cumpleaños! Con todo mi amor ❤️
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL 2: LIGHTBOX FOTO -->
+    <div id="photoModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+        <div class="relative max-w-3xl w-full text-center space-y-4">
+            <button id="btnClosePhotoModal" class="absolute -top-12 right-0 text-white text-2xl hover:text-romantic-gold transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="bg-white p-4 rounded-lg shadow-2xl inline-block max-w-full">
+                <img id="modalImg" src="" alt="Foto" class="max-h-[75vh] w-auto mx-auto rounded object-contain">
+                <p id="modalCaption" class="font-cursive text-2xl text-romantic-900 mt-3 font-semibold"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT LOGIC
+    =========================================== -->
+    <script>
+        // --- 1. AMBIENT CANVAS PARTICLES ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 100;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.color = Math.random() > 0.4 ? '#fb7185' : '#dfb76c';
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                // Draw heart or circle
+                ctx.beginPath();
+                const topCurveHeight = this.size * 0.3;
+                ctx.moveTo(this.x, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + this.size, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight, this.x + this.size / 2, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const particles = Array.from({ length: 35 }, () => new Particle());
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+
+        // --- 2. AUDIO TOGGLE ---
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.className = 'fas fa-music text-lg';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicIcon.className = 'fas fa-pause text-lg text-romantic-400';
+                    isPlaying = true;
+                }).catch(err => console.log("Audio play blocked", err));
+            }
+        });
+
+
+        // --- 3. CINEMATIC INTRO FLOW ---
+        const btnStartExperience = document.getElementById('btnStartExperience');
+        const introStartBox = document.getElementById('introStartBox');
+        const cinematicContent = document.getElementById('cinematicContent');
+        const cinematicIntro = document.getElementById('cinematicIntro');
+
+        const cineSub1 = document.getElementById('cineSub1');
+        const cineTitle = document.getElementById('cineTitle');
+        const cineSub2 = document.getElementById('cineSub2');
+        const cineContinueBtn = document.getElementById('cineContinueBtn');
+        const btnEnterMain = document.getElementById('btnEnterMain');
+
+        btnStartExperience.addEventListener('click', () => {
+            // Play ambient music
+            bgMusic.play().then(() => {
+                musicIcon.className = 'fas fa-pause text-lg text-romantic-400';
+                isPlaying = true;
+            }).catch(() => {});
+
+            // Trigger Confetti initial spark
+            confetti({
+                particleCount: 60,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Hide start box and reveal cinematic content with keyframe delays
+            introStartBox.classList.add('opacity-0', 'scale-90');
+            setTimeout(() => {
+                introStartBox.classList.add('hidden');
+                cinematicContent.classList.remove('hidden');
+
+                // Sequence animations
+                setTimeout(() => {
+                    cineSub1.classList.remove('opacity-0', 'translate-y-4');
+                }, 300);
+
+                setTimeout(() => {
+                    cineTitle.classList.remove('opacity-0', 'scale-95');
+                    confetti({ particleCount: 80, spread: 100, origin: { y: 0.5 } });
+                }, 1400);
+
+                setTimeout(() => {
+                    cineSub2.classList.remove('opacity-0', 'translate-y-4');
+                }, 2500);
+
+                setTimeout(() => {
+                    cineContinueBtn.classList.remove('opacity-0');
+                }, 3400);
+
+            }, 700);
+        });
+
+        btnEnterMain.addEventListener('click', () => {
+            cinematicIntro.style.opacity = '0';
+            cinematicIntro.style.visibility = 'hidden';
+            setTimeout(() => {
+                cinematicIntro.classList.add('hidden');
+            }, 1200);
+        });
+
+
+        // --- 4. COUNTDOWN TIMER (29 de Septiembre - UTC-5 Hora Colombia) ---
+        function updateCountdown() {
+            const now = new Date();
+            // Target September 29th (Colombia Timezone UTC-5)
+            let currentYear = now.getFullYear();
+            // Construct target date for Sept 29 in Colombia UTC-5
+            let targetDate = new Date(`${currentYear}-09-29T00:00:00-05:00`);
+
+            // If birthday passed this year, point to next year
+            if (now > targetDate && now.getMonth() === 8 && now.getDate() > 29) {
+                targetDate = new Date(`${currentYear + 1}-09-29T00:00:00-05:00`);
+            }
+
+            const diff = targetDate - now;
+
+            if (diff <= 0 && now.getDate() === 29 && now.getMonth() === 8) {
+                // IT IS HER BIRTHDAY!
+                document.getElementById('timerDays').innerText = "00";
+                document.getElementById('timerHours').innerText = "00";
+                document.getElementById('timerMinutes').innerText = "00";
+                document.getElementById('timerSeconds').innerText = "00";
+                document.getElementById('countdownMsg').innerHTML = "🎉 <strong>¡HOY ES SU CUMPLEAÑOS!</strong> 🎉 Que sea el día más maravilloso del mundo ❤️";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timerDays').innerText = String(days).padStart(2, '0');
+            document.getElementById('timerHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('timerMinutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('timerSeconds').innerText = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+
+        // --- 5. INTERACTIVE ENVELOPE & LETTER MODAL ---
+        const interactiveEnvelope = document.getElementById('interactiveEnvelope');
+        const btnOpenLetterModal = document.getElementById('btnOpenLetterModal');
+        const letterModal = document.getElementById('letterModal');
+        const btnCloseLetterModal = document.getElementById('btnCloseLetterModal');
+
+        function openLetter() {
+            interactiveEnvelope.classList.add('open');
+            confetti({
+                particleCount: 100,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                letterModal.classList.remove('hidden');
+                setTimeout(() => {
+                    letterModal.classList.remove('opacity-0');
+                    letterModal.querySelector('div').classList.remove('scale-95');
+                }, 50);
+            }, 600);
+        }
+
+        interactiveEnvelope.addEventListener('click', openLetter);
+        btnOpenLetterModal.addEventListener('click', openLetter);
+
+        btnCloseLetterModal.addEventListener('click', () => {
+            letterModal.classList.add('opacity-0');
+            letterModal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                letterModal.classList.add('hidden');
+            }, 300);
+        });
+
+
+        // --- 6. PHOTO LIGHTBOX MODAL ---
+        const photoModal = document.getElementById('photoModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const btnClosePhotoModal = document.getElementById('btnClosePhotoModal');
+
+        function openPhotoModal(src, caption) {
+            modalImg.src = src;
+            modalCaption.innerText = caption;
+            photoModal.classList.remove('hidden');
+            setTimeout(() => {
+                photoModal.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        btnClosePhotoModal.addEventListener('click', () => {
+            photoModal.classList.add('opacity-0');
+            setTimeout(() => {
+                photoModal.classList.add('hidden');
+            }, 300);
+        });
+
+
+        // --- 7. REASONS & WISHES GENERATOR ---
+        const wishes = [
+            "✨ Por tu risa contagiosa que llena de luz cualquier habitación.",
+            "🌅 Por nuestro 21/07/2026, conversando desde las 6 AM hasta el amanecer.",
+            "💖 Por la ternura y autenticidad en cada mirada que das.",
+            "🌟 Por ser la persona con la que puedo ser 100% yo sin reservas.",
+            "🌸 Porque haces que los días ordinarios se sientan inolvidables.",
+            "👑 Porque te mereces absolutamente todo el amor y el éxito del mundo.",
+            "🎉 ¡Porque hoy celebramos el regalo inmenso de tu existencia!"
+        ];
+        let wishIndex = 0;
+
+        const btnGenerateWish = document.getElementById('btnGenerateWish');
+        const wishText = document.getElementById('wishText');
+        const btnConfetti = document.getElementById('btnConfetti');
+
+        btnGenerateWish.addEventListener('click', () => {
+            wishText.style.opacity = '0';
+            setTimeout(() => {
+                wishText.innerText = wishes[wishIndex];
+                wishText.style.opacity = '1';
+                wishIndex = (wishIndex + 1) % wishes.length;
+            }, 200);
+
+            confetti({
+                particleCount: 50,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }
+            });
+            confetti({
+                particleCount: 50,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }
+            });
+        });
+
+        btnConfetti.addEventListener('click', () => {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        });
+    </script>
+</body>
+</html>
