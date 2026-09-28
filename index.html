@@ -276,14 +276,19 @@
     <!-- Ambient Floating Hearts Canvas -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Ambient Audio Player (Optional background soundtrack with user interaction trigger) -->
+    <!-- Ambient Audio Player: Lady Gaga, Bruno Mars - Die With A Smile -->
     <audio id="bgMusic" loop preload="auto">
+        <source src="diewithasmile.mp3" type="audio/mpeg">
+        <source src="https://raw.githubusercontent.com/antigravity-media/audio/main/die_with_a_smile.mp3" type="audio/mpeg">
         <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-sunset-688.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Music Control Button -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="musicToggle" class="w-12 h-12 rounded-full glass-card-gold text-romantic-gold flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 border border-romantic-gold/50" title="Música de fondo">
+    <div class="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+        <div id="songBadge" class="hidden glass-card-gold px-3 py-1.5 rounded-full text-xs text-romantic-gold font-medium border border-romantic-gold/40 shadow-lg animate-pulse">
+            🎵 Lady Gaga, Bruno Mars - Die With A Smile
+        </div>
+        <button id="musicToggle" class="w-12 h-12 rounded-full glass-card-gold text-romantic-gold flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 border border-romantic-gold/50" title="Lady Gaga, Bruno Mars - Die With A Smile">
             <i id="musicIcon" class="fas fa-music text-lg"></i>
         </button>
     </div>
@@ -482,7 +487,7 @@
                 <!-- Feature Visual Card -->
                 <div class="md:col-span-5 flex justify-center">
                     <div class="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl group border border-romantic-gold/40">
-                        <img src="assets/foto2.png" alt="Recuerdo Especial" class="w-full h-80 object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                        <img src="foto2.png" alt="Recuerdo Especial" class="w-full h-80 object-cover object-center group-hover:scale-110 transition-transform duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-romantic-dark via-transparent to-transparent opacity-90"></div>
                         <div class="absolute bottom-4 left-4 right-4 p-4 text-center">
                             <p class="font-cursive text-xl text-romantic-gold">Un instante grabado en el alma</p>
@@ -512,9 +517,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pt-4">
 
                 <!-- Photo 1 -->
-                <div class="polaroid cursor-pointer group" style="--rotation: -3deg;" onclick="openPhotoModal('assets/foto1.jpg', 'Tu sonrisa radiante que ilumina todo a tu alrededor.')">
+                <div class="polaroid cursor-pointer group" style="--rotation: -3deg;" onclick="openPhotoModal('foto1.jpg', 'Tu sonrisa radiante que ilumina todo a tu alrededor.')">
                     <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
-                        <img src="assets/foto1.jpg" alt="Ella 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="foto1.jpg" alt="Ella 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
                         Una sonrisa única ✨
@@ -522,9 +527,9 @@
                 </div>
 
                 <!-- Photo 2 -->
-                <div class="polaroid cursor-pointer group" style="--rotation: 2deg;" onclick="openPhotoModal('assets/foto2.png', 'Libre, auténtica y hermosa frente al mar.')">
+                <div class="polaroid cursor-pointer group" style="--rotation: 2deg;" onclick="openPhotoModal('foto2.png', 'Libre, auténtica y hermosa frente al mar.')">
                     <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
-                        <img src="assets/foto2.png" alt="Ella 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="foto2.png" alt="Ella 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
                         Atardeceres inolvidables 🌅
@@ -532,9 +537,9 @@
                 </div>
 
                 <!-- Photo 3 -->
-                <div class="polaroid cursor-pointer group" style="--rotation: -2deg;" onclick="openPhotoModal('assets/foto3.png', 'Esa mirada tan linda que transmite tanta calidez.')">
+                <div class="polaroid cursor-pointer group" style="--rotation: -2deg;" onclick="openPhotoModal('foto3.png', 'Esa mirada tan linda que transmite tanta calidez.')">
                     <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
-                        <img src="assets/foto3.png" alt="Ella 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="foto3.png" alt="Ella 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
                         La mirada más linda 💖
@@ -542,9 +547,9 @@
                 </div>
 
                 <!-- Photo 4 -->
-                <div class="polaroid cursor-pointer group" style="--rotation: 4deg;" onclick="openPhotoModal('assets/foto4.png', 'Tus detalles, tu elegancia y tu forma de ser única.')">
+                <div class="polaroid cursor-pointer group" style="--rotation: 4deg;" onclick="openPhotoModal('foto4.png', 'Tus detalles, tu elegancia y tu forma de ser única.')">
                     <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
-                        <img src="assets/foto4.png" alt="Ella 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="foto4.png" alt="Ella 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
                         Dulzura y encanto 🌸
@@ -552,9 +557,9 @@
                 </div>
 
                 <!-- Photo 5 -->
-                <div class="polaroid cursor-pointer group sm:col-span-2 lg:col-span-1" style="--rotation: -1deg;" onclick="openPhotoModal('assets/foto5.jpg', 'Radiante siempre, celebrando la vida con alegría.')">
+                <div class="polaroid cursor-pointer group sm:col-span-2 lg:col-span-1" style="--rotation: -1deg;" onclick="openPhotoModal('foto5.jpg', 'Radiante siempre, celebrando la vida con alegría.')">
                     <div class="w-full h-72 overflow-hidden bg-slate-100 rounded-sm">
-                        <img src="assets/foto5.jpg" alt="Ella 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="foto5.jpg" alt="Ella 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <p class="font-cursive text-xl text-center text-romantic-900 mt-3 font-semibold">
                         Celebrando tu existencia 🎉
@@ -738,22 +743,33 @@
         animateCanvas();
 
 
-        // --- 2. AUDIO TOGGLE ---
+        // --- 2. AUDIO TOGGLE (Die With A Smile - Lady Gaga & Bruno Mars) ---
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
         const musicIcon = document.getElementById('musicIcon');
+        const songBadge = document.getElementById('songBadge');
         let isPlaying = false;
+
+        function playSong() {
+            bgMusic.play().then(() => {
+                musicIcon.className = 'fas fa-pause text-lg text-romantic-400';
+                songBadge.classList.remove('hidden');
+                isPlaying = true;
+            }).catch(err => console.log("Audio play interaction required", err));
+        }
+
+        function pauseSong() {
+            bgMusic.pause();
+            musicIcon.className = 'fas fa-music text-lg';
+            songBadge.classList.add('hidden');
+            isPlaying = false;
+        }
 
         musicToggle.addEventListener('click', () => {
             if (isPlaying) {
-                bgMusic.pause();
-                musicIcon.className = 'fas fa-music text-lg';
-                isPlaying = false;
+                pauseSong();
             } else {
-                bgMusic.play().then(() => {
-                    musicIcon.className = 'fas fa-pause text-lg text-romantic-400';
-                    isPlaying = true;
-                }).catch(err => console.log("Audio play blocked", err));
+                playSong();
             }
         });
 
@@ -771,11 +787,8 @@
         const btnEnterMain = document.getElementById('btnEnterMain');
 
         btnStartExperience.addEventListener('click', () => {
-            // Play ambient music
-            bgMusic.play().then(() => {
-                musicIcon.className = 'fas fa-pause text-lg text-romantic-400';
-                isPlaying = true;
-            }).catch(() => {});
+            // Play Die With A Smile after opening the intro card
+            playSong();
 
             // Trigger Confetti initial spark
             confetti({
@@ -866,6 +879,7 @@
         const btnCloseLetterModal = document.getElementById('btnCloseLetterModal');
 
         function openLetter() {
+            if (!isPlaying) playSong();
             interactiveEnvelope.classList.add('open');
             confetti({
                 particleCount: 100,
