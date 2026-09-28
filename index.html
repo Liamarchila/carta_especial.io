@@ -570,6 +570,73 @@
         </section>
 
 
+        <!-- SECTION: NUESTRA DISTANCIA NOS SEPARA, PERO NUESTRO AMOR NOS UNE -->
+        <section class="glass-card rounded-3xl p-6 sm:p-12 relative overflow-hidden border border-romantic-gold/40">
+            <!-- Background Radial Glow -->
+            <div class="absolute -top-32 -right-32 w-80 h-80 bg-romantic-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Text & Stats Info -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-romantic-600/30 text-romantic-300 text-xs font-semibold tracking-wider border border-romantic-500/30">
+                        <i class="fas fa-heart-pulse text-romantic-gold"></i>
+                        <span>AMOR SIN FRONTERAS • 23 AÑOS</span>
+                    </div>
+
+                    <h2 class="font-playfair text-3xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight">
+                        "Nuestra distancia nos separa, <br>
+                        <span class="gold-text font-cinzel">pero nuestro amor nos une"</span>
+                    </h2>
+
+                    <p class="text-slate-200 text-base sm:text-lg leading-relaxed font-light">
+                        Lo bueno es que esto nos hace infinitamente más fuertes. Ni los kilómetros ni la geografía pueden apagar lo que sentimos.
+                    </p>
+
+                    <!-- Distance Stat Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                        <div class="glass-card-gold rounded-2xl p-4 text-center border border-romantic-gold/30">
+                            <i class="fas fa-plane text-2xl text-romantic-gold mb-1"></i>
+                            <span class="block font-cinzel font-bold text-xl text-white">10 Horas</span>
+                            <span class="text-[11px] text-slate-300 uppercase tracking-wider">En Avión ✈️</span>
+                        </div>
+                        <div class="glass-card-gold rounded-2xl p-4 text-center border border-romantic-gold/30">
+                            <i class="fas fa-car text-2xl text-romantic-gold mb-1"></i>
+                            <span class="block font-cinzel font-bold text-xl text-white">63 Horas</span>
+                            <span class="text-[11px] text-slate-300 uppercase tracking-wider">En Carro 🚗</span>
+                        </div>
+                        <div class="glass-card-gold rounded-2xl p-4 text-center border border-romantic-gold/30 col-span-2 sm:col-span-1">
+                            <i class="fas fa-route text-2xl text-romantic-gold mb-1"></i>
+                            <span class="block font-cinzel font-bold text-xl text-white">3,058 km</span>
+                            <span class="text-[11px] text-slate-300 uppercase tracking-wider">De Conexión 💖</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-romantic-900/60 border-l-4 border-romantic-gold space-y-2">
+                        <p class="font-cursive text-2xl text-romantic-gold">
+                            "Pero la distancia no va a romper esto tan lindo que siento por ti."
+                        </p>
+                        <p class="text-romantic-100 font-semibold text-base sm:text-lg">
+                            🎉 ¡Felices 23 añitos mi amor! 🎉
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Distance Map Image View -->
+                <div class="lg:col-span-6 flex justify-center">
+                    <div class="relative w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl group border-2 border-romantic-gold/40 cursor-pointer" onclick="openPhotoModal('mapa.png', 'Nuestra distancia nos separa, pero nuestro amor nos une • 10h Avión / 63h Carro ❤️')">
+                        <img src="mapa.png" alt="Mapa de Distancia" class="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-romantic-dark/90 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-center">
+                            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card-gold text-romantic-gold text-xs font-semibold shadow-lg">
+                                <i class="fas fa-search-plus"></i> Ver Mapa de Nuestra Ruta
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- SECTION 5: BOTONES INTERACTIVOS DE DESEOS & RAZONES -->
         <section class="glass-card rounded-3xl p-8 sm:p-12 text-center space-y-8">
             <div class="space-y-2">
@@ -934,12 +1001,13 @@
         // --- 7. REASONS & WISHES GENERATOR ---
         const wishes = [
             "✨ Por tu risa contagiosa que llena de luz cualquier habitación.",
+            "✈️ Ni 10 horas en avión ni 63 horas en carro rompen lo que siento por ti. ¡Felices 23 añitos mi amor!",
             "🌅 Por nuestro 21/07/2026, conversando desde las 6 AM hasta el amanecer.",
             "💖 Por la ternura y autenticidad en cada mirada que das.",
             "🌟 Por ser la persona con la que puedo ser 100% yo sin reservas.",
             "🌸 Porque haces que los días ordinarios se sientan inolvidables.",
             "👑 Porque te mereces absolutamente todo el amor y el éxito del mundo.",
-            "🎉 ¡Porque hoy celebramos el regalo inmenso de tu existencia!"
+            "🎉 ¡Porque hoy celebramos tus 23 añitos y el regalo inmenso de tu existencia!"
         ];
         let wishIndex = 0;
 
